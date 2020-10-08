@@ -5,11 +5,16 @@ const ObjectId = require('mongodb').ObjectId;
 
 
 const app = express()
+require('dotenv').config()
+
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = 5000
+
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -17,7 +22,7 @@ app.get('/', (req, res) => {
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://volunteerwork:volunteer1234@cluster0.0rza7.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_User}:${process.env.DB_Password}@cluster0.0rza7.mongodb.net/${process.env.DB_Name}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true ,useUnifiedTopology: true});
 client.connect(err => {
   const addcollection = client.db("volunteer").collection("addevent");
@@ -115,4 +120,4 @@ client.connect(err =>{
 })
 
 
-app.listen(process.env.PORT|| PORT);
+app.listen(process.env.PORT||PORT);
